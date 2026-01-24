@@ -12,9 +12,13 @@
 
 html,
 body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;     /* key */
   max-width: 100vw;
-  overflow-x: hidden;
 }
+
 
 body {
   color: var(--foreground);
@@ -39,4 +43,13 @@ a {
   html {
     color-scheme: dark;
   }
+}
+* {
+  outline: 1px solid red !important;
+}
+html {
+  height: 100%;
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
 }

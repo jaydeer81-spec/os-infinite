@@ -1,0 +1,24 @@
+{
+  "user_id": "dev-user",
+  "role": "adult",
+  "modules": [
+    "default",
+    "consumer_disputes",
+    "buddy",
+    "adoption_fostering",
+    "benefits_navigation",
+    "budgeting",
+    "care_homes",
+    "clarity",
+    "everyday_admin",
+    "insurance_claims",
+    "mortgages",
+    "moving_house",
+    "pensions",
+    "probate_funerals",
+    "savings_isa",
+    "school_support",
+    "tax_returns",
+    "workplace_support"
+  ]
+}
