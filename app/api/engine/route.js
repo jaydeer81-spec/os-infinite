@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { runEngine } from "../../../core/engine.js";
+import { runEngine } from "../../core/engine.js";
 
 export async function POST(request) {
   try {
