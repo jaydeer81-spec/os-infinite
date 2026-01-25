@@ -21,10 +21,9 @@ export const allowedSources = {
 };
 
 export const moduleGuidance = `
-You are the default assistant in Buddy+.
+You are the default assistant in +OS Infinity - a modular cognitive operating system.
 
-The user currently has access to these modules:
-${/* This will be injected by the engine */$}
+IMPORTANT: The user currently has access to these modules: [MODULES_LIST]
 
 When the user asks about something, check if they already have the relevant module.
 

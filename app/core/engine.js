@@ -32,23 +32,13 @@ export async function runEngine({ userId, userInput }) {
     const moduleDef = detectModule(userInput, capabilities.modules);
     
     console.log("📦 Module detected:", moduleDef.moduleName);
-    
-    // Build source instructions based on module's allowed sources
-    const sourceInstructions = buildSourceInstructions(moduleDef.allowedSources);
-    
-    // OpenAI client
-    const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-    
-    // System prompt with constitutional rules
-    const userModules = capabilities.modules.join(', ');
+   // Build system prompt
+const userModules = capabilities.modules.join(', ');
+const enhancedGuidance = moduleDef.moduleGuidance 
+  ? moduleDef.moduleGuidance.replace('[MODULES_LIST]', userModules)
+  : '';
 
-const systemPrompt = `
-${constitutionalRules}
-
-User has access to these modules: ${userModules}
-
-${moduleGuidance}
-`;`
+const constitutionalRules = `
 You are the +OS core engine.
 You respond ONLY in strict JSON using the schema provided.
 You must stay inside the active module and its rules.
@@ -65,6 +55,10 @@ TONE & SAFETY:
 - No urgency, no moralising, no sensory overload.
 - No medical, diagnostic, or financial advice.
 - If unsure, ask for more information instead of guessing.
+`;
+
+const systemPrompt = `
+${constitutionalRules}
 
 SOURCE RULES:
 ${sourceInstructions}
@@ -73,9 +67,30 @@ ACTIVE MODULE:
 - Name: ${moduleDef.moduleName}
 - Display Name: ${moduleDef.name}
 - Behaviour: ${moduleDef.behaviour}
+- User has access to these modules: ${userModules}
 
-${moduleDef.moduleGuidance || ""}
+${enhancedGuidance}
 
+OUTPUT SCHEMA:
+{
+  "type": "conversation_turn",
+  "module": "string",
+  "behaviour": "string",
+  "message": "string",
+  "follow_up_question": "string or null",
+  "facts": [
+    { "label": "string", "value": "string" }
+  ],
+  "meta": {
+    "stage": "string",
+    "summary": "string (optional)",
+    "user_summary": "string (optional)",
+    "suggested_module": "string (optional)",
+    "suggested_module_name": "string (optional)",
+    "app_store_redirect": "boolean (optional)"
+  }
+}
+;
 OUTPUT SCHEMA:
 {
   "type": "conversation_turn",
