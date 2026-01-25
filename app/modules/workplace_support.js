@@ -26,7 +26,15 @@ export const patterns = [
   "return to work",
   "grievance",
   "capability",
-  "disciplinary"
+  "disciplinary",
+  "reasonable adjustments",
+  "workplace accommodations",
+  "work adjustments",
+  "occupational health",
+  "performance review at work",
+  "workplace stress",
+  "work discrimination",
+  "employer issue"
 ];
 
 export const behaviour = "conversation";

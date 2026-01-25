@@ -40,7 +40,15 @@ export async function runEngine({ userId, userInput }) {
     const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     
     // System prompt with constitutional rules
-    const systemPrompt = `
+    const userModules = capabilities.modules.join(', ');
+
+const systemPrompt = `
+${constitutionalRules}
+
+User has access to these modules: ${userModules}
+
+${moduleGuidance}
+`;`
 You are the +OS core engine.
 You respond ONLY in strict JSON using the schema provided.
 You must stay inside the active module and its rules.

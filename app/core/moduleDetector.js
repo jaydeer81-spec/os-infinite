@@ -61,21 +61,50 @@ export function detectModule(userInput, allowedModules) {
   console.log("🔍 Available modules for user:", availableModules.map(m => m.moduleName));
   console.log("🔍 User input:", text);
   
-  // Try to match user input against module patterns
-  // Skip default module in this loop - it has no patterns
-  for (const mod of availableModules) {
-    if (mod.moduleName === "default") continue; // Skip default, handle separately
+  // Score each module based on pattern matches
+  const scores = availableModules.map(mod => {
+    if (mod.moduleName === "default") return { mod, score: 0 };
     
-    if (mod.patterns && mod.patterns.length > 0) {
-      const matches = mod.patterns.some((pattern) =>
-        text.includes(pattern.toLowerCase())
-      );
-      
-      if (matches) {
-        console.log("✅ Pattern match found:", mod.moduleName);
-        return mod;
+    if (!mod.patterns || mod.patterns.length === 0) return { mod, score: 0 };
+    
+    let score = 0;
+    let matchedPatterns = [];
+    
+    for (const pattern of mod.patterns) {
+      const regex = new RegExp(`\\b${pattern.toLowerCase()}\\b`, 'i');
+      if (regex.test(text)) {
+        score++;
+        matchedPatterns.push(pattern);
       }
     }
+    
+    return { mod, score, matchedPatterns };
+  });
+  
+  // Sort by score (highest first)
+  scores.sort((a, b) => b.score - a.score);
+  
+  // Log top matches
+  console.log("📊 Module scores:", scores.slice(0, 3).map(s => ({
+    module: s.mod.moduleName,
+    score: s.score,
+    patterns: s.matchedPatterns
+  })));
+  
+  // If top score is > 0 and significantly higher than second, use it
+  if (scores[0].score > 0) {
+    // Check if there's a clear winner (score at least 2, or 50% higher than second)
+    const topScore = scores[0].score;
+    const secondScore = scores[1]?.score || 0;
+    
+    if (topScore >= 2 || topScore > secondScore * 1.5) {
+      console.log("✅ Clear winner:", scores[0].mod.moduleName);
+      return scores[0].mod;
+    }
+    
+    // If tied or close, use the first match (in ALL_MODULES order)
+    console.log("⚖️ Close match, using first:", scores[0].mod.moduleName);
+    return scores[0].mod;
   }
   
   console.log("📌 No pattern match - checking for default module");
@@ -93,8 +122,7 @@ export function detectModule(userInput, allowedModules) {
     return availableModules[0];
   }
   
-  // Ultimate fallback: return the hardcoded default from ALL_MODULES
-  // This should never happen if capabilities are configured correctly
+  // Ultimate fallback
   console.log("❌ CRITICAL: No modules available, using hardcoded default");
   return defaultModule;
 }

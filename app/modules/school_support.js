@@ -28,7 +28,15 @@ export const patterns = [
   "exclusion",
   "suspension",
   "attendance",
-  "bullying"
+  "bullying",
+  "ehcp",
+  "sen support",
+  "send",
+  "school accommodations",
+  "iep",
+  "senco",
+  "school meeting parent",
+  "special educational needs"
 ];
 
 export const behaviour = "conversation";

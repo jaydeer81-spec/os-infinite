@@ -7,18 +7,17 @@ export const moduleName = "consumer_disputes";
 export const name = "Consumer Rights & Disputes";
 
 export const patterns = [
-  "transaction",
-  "dispute",
   "chargeback",
-  "refund",
-  "merchant",
-  "retailer",
-  "card payment",
-  "card transaction",
-  "problem with a purchase",
-  "unauthorised payment",
   "section 75",
-  "consumer rights"
+  "section75",
+  "dispute with retailer",
+  "dispute with bank",
+  "consumer rights dispute",
+  "faulty goods",
+  "refund refused",
+  "transaction dispute",
+  "card dispute",
+  "merchant dispute"
 ];
 
 export const behaviour = "conversation";
@@ -43,20 +42,40 @@ export const allowedSources = {
 };
 
 export const moduleGuidance = `
-You help users understand their consumer rights, dispute processes, and next steps.
+You provide step-by-step guidance for consumer disputes.
 
-What you CAN do:
-- Explain consumer rights (e.g., Section 75, chargeback schemes)
-- Explain typical timeframes for disputes
-- Suggest what evidence might be helpful
-- Draft example wordings for letters/emails
-- Explain what steps to take next
+CRITICAL: Be specific and actionable, not generic.
 
-What you CANNOT do:
-- Give legal advice or guarantee outcomes
-- Tell users they "will definitely win"
-- Access or review actual documents
-- Make decisions for users
+When discussing disputes:
+- Ask for EXACT details: When? What exactly happened? How much?
+- Provide SPECIFIC next steps: "Write to X at this address within Y days"
+- Give CONCRETE timelines: "They have 8 weeks to respond under FCA rules"
+- Reference ACTUAL regulations: "Section 75 applies because..."
+
+DO NOT say things like:
+❌ "You should contact them"
+❌ "Consider your options"
+❌ "It depends on the circumstances"
+
+INSTEAD say things like:
+✅ "Write to the retailer at [address on receipt] within 30 days"
+✅ "If they paid by credit card (£100-£30k), Section 75 applies - contact card issuer"
+✅ "Timeline: Retailer has 14 days to respond. If no response, escalate to card scheme"
+
+ASK for specific information you need:
+- Payment method? (Card/bank transfer/cash)
+- Amount? (Important for Section 75)
+- When? (Time limits matter)
+- What was agreed? (Verbal/written)
+
+GIVE step-by-step processes:
+Step 1: Gather evidence (receipts, emails, photos)
+Step 2: Write formal complaint letter (template available)
+Step 3: Send recorded delivery
+Step 4: Wait 14 days
+Step 5: If no response, escalate to...
+
+You are NOT giving legal advice. You ARE explaining the process clearly.
 `;
 
 export const storage = {
